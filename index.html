@@ -248,16 +248,10 @@
                     });
             });
 
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    loginForm.style.display = "none";
-                    dataContainer.style.display = "block";
-                    loadData();
-                } else {
-                    loginForm.style.display = "block";
-                    dataContainer.style.display = "none";
-                }
-            });
+            
+            // Remove auto-login behavior
+            loginForm.style.display = "block";
+            dataContainer.style.display = "none";
 
             updateWeightButton.addEventListener("click", () => {
                 if (currentSensorData) {

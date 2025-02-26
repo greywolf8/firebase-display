@@ -26,6 +26,15 @@
         const database = getDatabase(app);
         const auth = getAuth();
 
+        // Add degrees and radians conversion functions
+        Math.degrees = function(radians) {
+            return radians * (180/Math.PI);
+        };
+
+        Math.toRadians = function(degrees) {
+            return degrees * (Math.PI/180);
+        };
+
         let currentSensorData = null;
         const maxDataPoints = 100;
         let charts = {};
@@ -33,22 +42,56 @@
 
         function initializeCharts() {
             const chartConfigs = {
-                'orientationChart': {
+                'femurAccelChart': {
                     type: 'line',
                     data: {
                         labels: [],
-                        datasets: [{
-                            label: 'Pitch, Roll, Yaw',
-                            data: [],
-                            borderColor: 'blue',
-                            fill: false
-                        }]
+                        datasets: [
+                            {
+                                label: 'X-Axis',
+                                data: [],
+                                borderColor: 'rgb(255, 99, 132)',
+                                fill: false
+                            },
+                            {
+                                label: 'Y-Axis',
+                                data: [],
+                                borderColor: 'rgb(54, 162, 235)',
+                                fill: false
+                            },
+                            {
+                                label: 'Z-Axis',
+                                data: [],
+                                borderColor: 'rgb(75, 192, 192)',
+                                fill: false
+                            },
+                            {
+                                label: 'Magnitude',
+                                data: [],
+                                borderColor: 'rgb(153, 102, 255)',
+                                fill: false
+                            }
+                        ]
                     },
                     options: {
                         responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Femur Acceleration',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                },
+                                padding: {
+                                    top: 10,
+                                    bottom: 10
+                                }
+                            }
+                        },
                         scales: {
                             y: {
-                                title: { display: true, text: 'Angle (deg)' }
+                                title: { display: true, text: 'Acceleration (m/s²)' }
                             },
                             x: {
                                 title: { display: true, text: 'Time (s)' }
@@ -56,42 +99,53 @@
                         }
                     }
                 },
-                'flexionChart': {
+                'femurGyroChart': {
                     type: 'line',
                     data: {
                         labels: [],
-                        datasets: [{
-                            label: 'Knee Flexion',
-                            data: [],
-                            borderColor: 'purple',
-                            fill: false
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                title: { display: true, text: 'Flexion (deg)' }
+                        datasets: [
+                            {
+                                label: 'X-Axis',
+                                data: [],
+                                borderColor: 'rgb(255, 99, 132)',
+                                fill: false
                             },
-                            x: {
-                                title: { display: true, text: 'Time (s)' }
+                            {
+                                label: 'Y-Axis',
+                                data: [],
+                                borderColor: 'rgb(54, 162, 235)',
+                                fill: false
+                            },
+                            {
+                                label: 'Z-Axis',
+                                data: [],
+                                borderColor: 'rgb(75, 192, 192)',
+                                fill: false
+                            },
+                            {
+                                label: 'Magnitude',
+                                data: [],
+                                borderColor: 'rgb(153, 102, 255)',
+                                fill: false
                             }
-                        }
-                    }
-                },
-                'velocityChart': {
-                    type: 'line',
-                    data: {
-                        labels: [],
-                        datasets: [{
-                            label: 'Angular Velocity',
-                            data: [],
-                            borderColor: 'orange',
-                            fill: false
-                        }]
+                        ]
                     },
                     options: {
                         responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Femur Gyroscope',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                },
+                                padding: {
+                                    top: 10,
+                                    bottom: 10
+                                }
+                            }
+                        },
                         scales: {
                             y: {
                                 title: { display: true, text: 'Angular Velocity (deg/s)' }
@@ -102,22 +156,56 @@
                         }
                     }
                 },
-                'torqueChart': {
+                'tibiaAccelChart': {
                     type: 'line',
                     data: {
                         labels: [],
-                        datasets: [{
-                            label: 'Torque',
-                            data: [],
-                            borderColor: 'red',
-                            fill: false
-                        }]
+                        datasets: [
+                            {
+                                label: 'X-Axis',
+                                data: [],
+                                borderColor: 'rgb(255, 99, 132)',
+                                fill: false
+                            },
+                            {
+                                label: 'Y-Axis',
+                                data: [],
+                                borderColor: 'rgb(54, 162, 235)',
+                                fill: false
+                            },
+                            {
+                                label: 'Z-Axis',
+                                data: [],
+                                borderColor: 'rgb(75, 192, 192)',
+                                fill: false
+                            },
+                            {
+                                label: 'Magnitude',
+                                data: [],
+                                borderColor: 'rgb(153, 102, 255)',
+                                fill: false
+                            }
+                        ]
                     },
                     options: {
                         responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Tibia Acceleration',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                },
+                                padding: {
+                                    top: 10,
+                                    bottom: 10
+                                }
+                            }
+                        },
                         scales: {
                             y: {
-                                title: { display: true, text: 'Torque (N.m)' }
+                                title: { display: true, text: 'Acceleration (m/s²)' }
                             },
                             x: {
                                 title: { display: true, text: 'Time (s)' }
@@ -125,24 +213,56 @@
                         }
                     }
                 },
-                'phaseChart': {
+                'tibiaGyroChart': {
                     type: 'line',
                     data: {
                         labels: [],
-                        datasets: [{
-                            label: 'Swing vs Stance',
-                            data: [],
-                            borderColor: 'black',
-                            stepped: true
-                        }]
+                        datasets: [
+                            {
+                                label: 'X-Axis',
+                                data: [],
+                                borderColor: 'rgb(255, 99, 132)',
+                                fill: false
+                            },
+                            {
+                                label: 'Y-Axis',
+                                data: [],
+                                borderColor: 'rgb(54, 162, 235)',
+                                fill: false
+                            },
+                            {
+                                label: 'Z-Axis',
+                                data: [],
+                                borderColor: 'rgb(75, 192, 192)',
+                                fill: false
+                            },
+                            {
+                                label: 'Magnitude',
+                                data: [],
+                                borderColor: 'rgb(153, 102, 255)',
+                                fill: false
+                            }
+                        ]
                     },
                     options: {
                         responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Tibia Gyroscope',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                },
+                                padding: {
+                                    top: 10,
+                                    bottom: 10
+                                }
+                            }
+                        },
                         scales: {
                             y: {
-                                title: { display: true, text: 'Phase' },
-                                min: 0,
-                                max: 1
+                                title: { display: true, text: 'Angular Velocity (deg/s)' }
                             },
                             x: {
                                 title: { display: true, text: 'Time (s)' }
@@ -163,51 +283,57 @@
                 timeData.shift();
                 Object.values(charts).forEach(chart => {
                     chart.data.labels.shift();
-                    chart.data.datasets[0].data.shift();
+                    chart.data.datasets.forEach(dataset => {
+                        dataset.data.shift();
+                    });
                 });
             }
 
             timeData.push(timestamp);
             const timeLabel = (timestamp % 10).toFixed(1);
 
-            for (const chart of Object.values(charts)) {
+            // Add time label to all charts
+            Object.values(charts).forEach(chart => {
                 chart.data.labels.push(timeLabel);
+            });
+
+            // Update Femur Acceleration
+            if (data.Femur && data.Femur.Acceleration) {
+                const femurAccel = data.Femur.Acceleration;
+                charts.femurAccelChart.data.datasets[0].data.push(femurAccel.Femur_Accel_X);
+                charts.femurAccelChart.data.datasets[1].data.push(femurAccel.Femur_Accel_Y);
+                charts.femurAccelChart.data.datasets[2].data.push(femurAccel.Femur_Accel_Z);
+                charts.femurAccelChart.data.datasets[3].data.push(femurAccel.Femur_Accel_Magnitude);
             }
 
-            // Update orientation data
-            if (data["MPU-2 Magnetometer"]) {
-                const mx = data["MPU-2 Magnetometer"].Mx;
-                const my = data["MPU-2 Magnetometer"].My;
-                const mz = data["MPU-2 Magnetometer"].Mz;
-                const pitch = Math.atan2(my, Math.sqrt(mx * mx + mz * mz)) * (180 / Math.PI);
-                charts.orientationChart.data.datasets[0].data.push(pitch);
-                charts.flexionChart.data.datasets[0].data.push(pitch);
+            // Update Femur Gyroscope
+            if (data.Femur && data.Femur.Gyroscope) {
+                const femurGyro = data.Femur.Gyroscope;
+                charts.femurGyroChart.data.datasets[0].data.push(femurGyro.Femur_Gyro_X);
+                charts.femurGyroChart.data.datasets[1].data.push(femurGyro.Femur_Gyro_Y);
+                charts.femurGyroChart.data.datasets[2].data.push(femurGyro.Femur_Gyro_Z);
+                charts.femurGyroChart.data.datasets[3].data.push(femurGyro.Femur_Gyro_Magnitude);
             }
 
-            // Update velocity data
-            if (data["MPU-1 Gyroscope"]) {
-                const gx = data["MPU-1 Gyroscope"].Gx;
-                const gy = data["MPU-1 Gyroscope"].Gy;
-                const gz = data["MPU-1 Gyroscope"].Gz;
-                const omega = Math.sqrt(gx * gx + gy * gy + gz * gz);
-                charts.velocityChart.data.datasets[0].data.push(omega);
-
-                const alpha = omega / 0.01;
-                const I_knee = 0.5;
-                const torque = I_knee * alpha;
-                charts.torqueChart.data.datasets[0].data.push(torque);
+            // Update Tibia Acceleration
+            if (data.Tibia && data.Tibia.Acceleration) {
+                const tibiaAccel = data.Tibia.Acceleration;
+                charts.tibiaAccelChart.data.datasets[0].data.push(tibiaAccel.Tibia_Accel_X);
+                charts.tibiaAccelChart.data.datasets[1].data.push(tibiaAccel.Tibia_Accel_Y);
+                charts.tibiaAccelChart.data.datasets[2].data.push(tibiaAccel.Tibia_Accel_Z);
+                charts.tibiaAccelChart.data.datasets[3].data.push(tibiaAccel.Tibia_Accel_Magnitude);
             }
 
-            // Update phase data
-            if (data["MPU-1 Acceleration"]) {
-                const ax = data["MPU-1 Acceleration"].Ax;
-                const ay = data["MPU-1 Acceleration"].Ay;
-                const az = data["MPU-1 Acceleration"].Az;
-                const Atotal = Math.sqrt(ax * ax + ay * ay + az * az);
-                const phase = Atotal > 1.2 ? 1 : 0;
-                charts.phaseChart.data.datasets[0].data.push(phase);
+            // Update Tibia Gyroscope
+            if (data.Tibia && data.Tibia.Gyroscope) {
+                const tibiaGyro = data.Tibia.Gyroscope;
+                charts.tibiaGyroChart.data.datasets[0].data.push(tibiaGyro.Tibia_Gyro_X);
+                charts.tibiaGyroChart.data.datasets[1].data.push(tibiaGyro.Tibia_Gyro_Y);
+                charts.tibiaGyroChart.data.datasets[2].data.push(tibiaGyro.Tibia_Gyro_Z);
+                charts.tibiaGyroChart.data.datasets[3].data.push(tibiaGyro.Tibia_Gyro_Magnitude);
             }
 
+            // Update all charts
             Object.values(charts).forEach(chart => chart.update());
         }
 
@@ -253,25 +379,66 @@
             loginForm.style.display = "block";
             dataContainer.style.display = "none";
 
-            updateWeightButton.addEventListener("click", () => {
+            const weightInput = document.getElementById("user-weight");
+            
+            // Function to update all weight-dependent calculations
+            function updateWeightDependentCalculations() {
                 if (currentSensorData) {
-                    const sensorSection = Object.keys(currentSensorData)[0];
-                    if (currentSensorData[sensorSection] && currentSensorData[sensorSection]["MPU-1 Acceleration"]) {
-                        updateKneeForce(currentSensorData[sensorSection]["MPU-1 Acceleration"]);
+                    // Update knee force if acceleration data exists
+                    if (currentSensorData.Femur && currentSensorData.Femur.Acceleration) {
+                        updateKneeForce(currentSensorData.Femur.Acceleration);
+                    }
+                    
+                    // Update torque if gyroscope data exists
+                    if (currentSensorData.Femur && currentSensorData.Femur.Gyroscope && 
+                        currentSensorData.Femur.Acceleration) {
+                        const femurGyroX = currentSensorData.Femur.Gyroscope.Femur_Gyro_X;
+                        const femurGyroY = currentSensorData.Femur.Gyroscope.Femur_Gyro_Y;
+                        const femurGyroZ = currentSensorData.Femur.Gyroscope.Femur_Gyro_Z;
+                        const femurAngularVelocity = Math.sqrt(
+                            femurGyroX * femurGyroX + 
+                            femurGyroY * femurGyroY + 
+                            femurGyroZ * femurGyroZ
+                        );
+                        
+                        const alpha = femurAngularVelocity / 0.01;  // Angular acceleration
+                        const mass = parseFloat(weightInput.value);
+                        
+                        if (mass && mass > 0) {
+                            const accelMag = currentSensorData.Femur.Acceleration.Femur_Accel_Magnitude;
+                            const I = mass * (accelMag / 9.81);
+                            const torque = I * alpha;
+                            
+                            document.getElementById("joint-torque-display").textContent = 
+                                `Knee Joint Torque: ${Math.abs(torque).toFixed(2)} N·m`;
+                        } else {
+                            document.getElementById("joint-torque-display").textContent = 
+                                `Knee Joint Torque: Please enter valid weight`;
+                        }
                     }
                 }
-            });
+            }
+            
+            // Add real-time weight input listener
+            weightInput.addEventListener("input", updateWeightDependentCalculations);
+            
+            // Update when button is clicked
+            updateWeightButton.addEventListener("click", updateWeightDependentCalculations);
 
             function updateKneeForce(accelerationData) {
                 const weightInput = document.getElementById("user-weight").value;
                 if (weightInput && weightInput > 0) {
                     const mass = parseFloat(weightInput);
-                    const ax = accelerationData.Ax;
-                    const ay = accelerationData.Ay;
-                    const Afoot = Math.sqrt(ax * ax + ay * ay);
-                    const Fk = mass * Afoot;
+                    const ax = accelerationData.Femur_Accel_X;
+                    const ay = accelerationData.Femur_Accel_Y;
+                    const az = accelerationData.Femur_Accel_Z;
+                    const Afoot = Math.sqrt(ax * ax + ay * ay + az * az);
+                    const g = 9.81; // gravity constant in m/s²
+                    const Fk = mass * g * Afoot;
                     document.getElementById("knee-force-display").textContent =
                         `Knee Joint Force: ${Fk.toFixed(2)} N`;
+                } else {
+                    alert("Please enter a valid weight value greater than 0");
                 }
             }
 
@@ -285,62 +452,157 @@
                     currentSensorData = data;
                     const currentTime = (Date.now() / 1000) - startTime;
 
-                    for (const section in data) {
-                        if (data.hasOwnProperty(section)) {
-                            updateCharts(data[section], currentTime);
-                            
-                            // Update Angular Measurements
-                            if (data[section]["MPU-1 Gyroscope"]) {
-                                const gx = data[section]["MPU-1 Gyroscope"].Gx;
-                                const gy = data[section]["MPU-1 Gyroscope"].Gy;
-                                const gz = data[section]["MPU-1 Gyroscope"].Gz;
-                                const omega = Math.sqrt(gx * gx + gy * gy + gz * gz);
-                                document.getElementById("angular-velocity-display").textContent = 
-                                    `Angular Velocity: ${omega.toFixed(2)} deg/s`;
-                                
-                                const alpha = omega / 0.01;
-                                document.getElementById("angular-acceleration-display").textContent = 
-                                    `Angular Acceleration: ${alpha.toFixed(2)} deg/s²`;
-                                
-                                const I_knee = 0.5;
-                                const torque = I_knee * alpha;
-                                document.getElementById("joint-torque-display").textContent = 
-                                    `Knee Joint Torque: ${torque.toFixed(2)} N·m`;
+                    updateCharts(data, currentTime);
+                    
+                    // Update Angular Measurements
+                    if (data.Femur && data.Femur.Gyroscope && data.Tibia && data.Tibia.Gyroscope && 
+                        data.Femur.Acceleration && data.Femur.Acceleration.Femur_Accel_Magnitude) {
+                        // Calculate Femur Angular Velocity
+                        const femurGyroX = data.Femur.Gyroscope.Femur_Gyro_X;
+                        const femurGyroY = data.Femur.Gyroscope.Femur_Gyro_Y;
+                        const femurGyroZ = data.Femur.Gyroscope.Femur_Gyro_Z;
+                        const femurAngularVelocity = Math.sqrt(
+                            femurGyroX * femurGyroX + 
+                            femurGyroY * femurGyroY + 
+                            femurGyroZ * femurGyroZ
+                        );
+                        
+                        // Calculate Tibia Angular Velocity
+                        const tibiaGyroX = data.Tibia.Gyroscope.Tibia_Gyro_X;
+                        const tibiaGyroY = data.Tibia.Gyroscope.Tibia_Gyro_Y;
+                        const tibiaGyroZ = data.Tibia.Gyroscope.Tibia_Gyro_Z;
+                        const tibiaAngularVelocity = Math.sqrt(
+                            tibiaGyroX * tibiaGyroX + 
+                            tibiaGyroY * tibiaGyroY + 
+                            tibiaGyroZ * tibiaGyroZ
+                        );
+
+                        document.getElementById("femur-angular-velocity-display").textContent = 
+                            `Femur Angular Velocity: ${femurAngularVelocity.toFixed(2)} deg/s`;
+                        document.getElementById("tibia-angular-velocity-display").textContent = 
+                            `Tibia Angular Velocity: ${tibiaAngularVelocity.toFixed(2)} deg/s`;
+                        
+                        // Use femur angular velocity for acceleration calculation
+                        const alpha = femurAngularVelocity / 0.01;  // Angular acceleration in deg/s²
+                        document.getElementById("angular-acceleration-display").textContent = 
+                            `Angular Acceleration: ${alpha.toFixed(2)} deg/s²`;
+                        
+                        // Update all weight-dependent calculations
+                        updateWeightDependentCalculations();
+                    }
+
+                    // Update Phase
+                    if (data.Femur && data.Femur.Acceleration) {
+                        const Atotal = data.Femur.Acceleration.Femur_Accel_Magnitude;
+                        const phase = Atotal > 1.2 ? "Stance" : "Swing";
+                        document.getElementById("phase-display").textContent = 
+                            `Phase: ${phase}`;
+                    }
+
+                    // Update Foot Orientation using Tibia acceleration
+                    if (data.Tibia && data.Tibia.Acceleration && data.Tibia.Gyroscope &&
+                        data.Femur && data.Femur.Acceleration && data.Femur.Gyroscope) {
+                        // Tibia Orientation
+                        const tibiaAccelX = data.Tibia.Acceleration.Tibia_Accel_X;
+                        const tibiaAccelY = data.Tibia.Acceleration.Tibia_Accel_Y;
+                        const tibiaAccelZ = data.Tibia.Acceleration.Tibia_Accel_Z;
+                        const tibiaGyroX = data.Tibia.Gyroscope.Tibia_Gyro_X;
+                        const tibiaGyroY = data.Tibia.Gyroscope.Tibia_Gyro_Y;
+                        
+                        const tibiaPitch = Math.degrees(Math.atan2(-tibiaAccelX, Math.sqrt(tibiaAccelY**2 + tibiaAccelZ**2)));
+                        const tibiaRoll = Math.degrees(Math.atan2(tibiaAccelY, tibiaAccelZ));
+                        const tibiaYaw = Math.degrees(Math.atan2(tibiaGyroY, tibiaGyroX));
+                        
+                        // Femur Orientation
+                        const femurAccelX = data.Femur.Acceleration.Femur_Accel_X;
+                        const femurAccelY = data.Femur.Acceleration.Femur_Accel_Y;
+                        const femurAccelZ = data.Femur.Acceleration.Femur_Accel_Z;
+                        const femurGyroX = data.Femur.Gyroscope.Femur_Gyro_X;
+                        const femurGyroY = data.Femur.Gyroscope.Femur_Gyro_Y;
+                        
+                        const femurPitch = Math.degrees(Math.atan2(-femurAccelX, Math.sqrt(femurAccelY**2 + femurAccelZ**2)));
+                        const femurRoll = Math.degrees(Math.atan2(femurAccelY, femurAccelZ));
+                        const femurYaw = Math.degrees(Math.atan2(femurGyroY, femurGyroX));
+                        
+                        // Calculate relative knee flexion angle using vector approach
+                        function calculateKneeFlexionAngle(femurAngles, tibiaAngles) {
+                            console.log('Input angles:', { femurAngles, tibiaAngles });
+
+                            // Normalize angles to be within -180 to 180 degrees
+                            const normalizePitch = (pitch) => {
+                                let p = pitch % 360;
+                                return p > 180 ? p - 360 : (p < -180 ? p + 360 : p);
+                            };
+
+                            femurAngles.pitch = normalizePitch(femurAngles.pitch);
+                            tibiaAngles.pitch = normalizePitch(tibiaAngles.pitch);
+
+                            // Create unit vectors for femur and tibia
+                            // Using pitch only for initial testing as it's the primary angle for knee flexion
+                            let femurVector = [
+                                Math.sin(Math.toRadians(femurAngles.pitch)),
+                                0,  // Assuming sagittal plane motion
+                                Math.cos(Math.toRadians(femurAngles.pitch))
+                            ];
+
+                            let tibiaVector = [
+                                Math.sin(Math.toRadians(tibiaAngles.pitch)),
+                                0,  // Assuming sagittal plane motion
+                                Math.cos(Math.toRadians(tibiaAngles.pitch))
+                            ];
+
+                            console.log('Vectors:', {
+                                femurVector,
+                                tibiaVector
+                            });
+
+                            // Compute dot product
+                            let dotProduct = femurVector[0] * tibiaVector[0] +
+                                           femurVector[1] * tibiaVector[1] +
+                                           femurVector[2] * tibiaVector[2];
+
+                            // Ensure dot product is within valid range for acos
+                            dotProduct = Math.max(-1, Math.min(1, dotProduct));
+
+                            // Compute knee flexion angle (in degrees)
+                            let kneeAngle = Math.degrees(Math.acos(dotProduct));
+
+                            // The angle should be positive during flexion
+                            // If tibia pitch is greater than femur pitch, we're in flexion
+                            if (tibiaAngles.pitch < femurAngles.pitch) {
+                                kneeAngle = 180 - kneeAngle;
                             }
 
-                            // Update Phase
-                            if (data[section]["MPU-1 Acceleration"]) {
-                                const ax = data[section]["MPU-1 Acceleration"].Ax;
-                                const ay = data[section]["MPU-1 Acceleration"].Ay;
-                                const az = data[section]["MPU-1 Acceleration"].Az;
-                                const Atotal = Math.sqrt(ax * ax + ay * ay + az * az);
-                                const phase = Atotal > 1.2 ? "Stance" : "Swing";
-                                document.getElementById("phase-display").textContent = 
-                                    `Phase: ${phase}`;
-                            }
+                            console.log('Calculated values:', {
+                                dotProduct,
+                                kneeAngle
+                            });
 
-                            // Update Foot Orientation
-                            if (data[section]["MPU-2 Magnetometer"]) {
-                                const mx = data[section]["MPU-2 Magnetometer"].Mx;
-                                const my = data[section]["MPU-2 Magnetometer"].My;
-                                const mz = data[section]["MPU-2 Magnetometer"].Mz;
-                                
-                                const pitch = Math.atan2(my, Math.sqrt(mx * mx + mz * mz)) * (180 / Math.PI);
-                                const roll = Math.atan2(-mx, mz) * (180 / Math.PI);
-                                const yaw = Math.atan2(mz, mx) * (180 / Math.PI);
-                                
-                                document.getElementById("pitch-display").textContent = 
-                                    `Pitch: ${pitch.toFixed(2)}°`;
-                                document.getElementById("roll-display").textContent = 
-                                    `Roll: ${roll.toFixed(2)}°`;
-                                document.getElementById("yaw-display").textContent = 
-                                    `Yaw: ${yaw.toFixed(2)}°`;
-                                    
-                                // Update Knee Flexion Angle (same as pitch)
-                                document.getElementById("knee-flexion-display").textContent = 
-                                    `Knee Flexion Angle: ${pitch.toFixed(2)}°`;
-                            }
+                            return Math.abs(kneeAngle).toFixed(2);
                         }
+
+                        // Update displays for Tibia
+                        document.getElementById("tibia-pitch-display").textContent = 
+                            `Tibia Pitch: ${tibiaPitch.toFixed(2)}°`;
+                        document.getElementById("tibia-roll-display").textContent = 
+                            `Tibia Roll: ${tibiaRoll.toFixed(2)}°`;
+                        document.getElementById("tibia-yaw-display").textContent = 
+                            `Tibia Yaw: ${tibiaYaw.toFixed(2)}°`;
+                            
+                        // Update displays for Femur
+                        document.getElementById("femur-pitch-display").textContent = 
+                            `Femur Pitch: ${femurPitch.toFixed(2)}°`;
+                        document.getElementById("femur-roll-display").textContent = 
+                            `Femur Roll: ${femurRoll.toFixed(2)}°`;
+                        document.getElementById("femur-yaw-display").textContent = 
+                            `Femur Yaw: ${femurYaw.toFixed(2)}°`;
+                            
+                        // Calculate knee flexion angle using the new vector-based approach
+                        const femurAngles = { pitch: femurPitch, yaw: femurYaw };
+                        const tibiaAngles = { pitch: tibiaPitch, yaw: tibiaYaw };
+                        const kneeFlexionAngle = calculateKneeFlexionAngle(femurAngles, tibiaAngles);
+                        document.getElementById("knee-flexion-display").textContent = 
+                            `Knee Flexion Angle: ${kneeFlexionAngle}°`;
                     }
 
                     // Update raw data table
@@ -350,25 +612,21 @@
                         return;
                     }
 
-                    for (const section in data) {
-                        if (data.hasOwnProperty(section)) {
-                            for (const sensorType in data[section]) {
-                                if (data[section].hasOwnProperty(sensorType)) {
-                                    const row = document.createElement("tr");
-                                    const sectionCell = document.createElement("td");
-                                    sectionCell.textContent = section;
-                                    const sensorTypeCell = document.createElement("td");
-                                    sensorTypeCell.textContent = sensorType;
-                                    const dataCell = document.createElement("td");
-                                    const sensorData = data[section][sensorType];
-                                    dataCell.textContent = JSON.stringify(sensorData);
+                    for (const segment in data) {
+                        for (const sensorType in data[segment]) {
+                            const row = document.createElement("tr");
+                            const segmentCell = document.createElement("td");
+                            segmentCell.textContent = segment;
+                            const sensorTypeCell = document.createElement("td");
+                            sensorTypeCell.textContent = sensorType;
+                            const dataCell = document.createElement("td");
+                            const sensorData = data[segment][sensorType];
+                            dataCell.textContent = JSON.stringify(sensorData);
 
-                                    row.appendChild(sectionCell);
-                                    row.appendChild(sensorTypeCell);
-                                    row.appendChild(dataCell);
-                                    tableBody.appendChild(row);
-                                }
-                            }
+                            row.appendChild(segmentCell);
+                            row.appendChild(sensorTypeCell);
+                            row.appendChild(dataCell);
+                            tableBody.appendChild(row);
                         }
                     }
                 });
@@ -484,7 +742,8 @@
                 <div class="col-md-6">
                     <div class="biomech-section">
                         <h3>Angular Measurements</h3>
-                        <div id="angular-velocity-display" class="data-display">Angular Velocity: Loading...</div>
+                        <div id="femur-angular-velocity-display" class="data-display">Femur Angular Velocity: Loading...</div>
+                        <div id="tibia-angular-velocity-display" class="data-display">Tibia Angular Velocity: Loading...</div>
                         <div id="angular-acceleration-display" class="data-display">Angular Acceleration: Loading...</div>
                         <div id="joint-torque-display" class="data-display">Knee Joint Torque: Loading...</div>
                     </div>
@@ -492,16 +751,19 @@
             </div>
 
             <div class="biomech-section">
-                <h3>Foot Orientation</h3>
+                <h3>Segment Orientations</h3>
                 <div class="row">
-                    <div class="col-md-4">
-                        <div id="pitch-display" class="data-display">Pitch: Loading...</div>
+                    <div class="col-md-6">
+                        <h4 class="text-center">Femur Orientation</h4>
+                        <div id="femur-pitch-display" class="data-display">Femur Pitch: Loading...</div>
+                        <div id="femur-roll-display" class="data-display">Femur Roll: Loading...</div>
+                        <div id="femur-yaw-display" class="data-display">Femur Yaw: Loading...</div>
                     </div>
-                    <div class="col-md-4">
-                        <div id="roll-display" class="data-display">Roll: Loading...</div>
-                    </div>
-                    <div class="col-md-4">
-                        <div id="yaw-display" class="data-display">Yaw: Loading...</div>
+                    <div class="col-md-6">
+                        <h4 class="text-center">Tibia Orientation</h4>
+                        <div id="tibia-pitch-display" class="data-display">Tibia Pitch: Loading...</div>
+                        <div id="tibia-roll-display" class="data-display">Tibia Roll: Loading...</div>
+                        <div id="tibia-yaw-display" class="data-display">Tibia Yaw: Loading...</div>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -512,29 +774,24 @@
             </div>
 
             <div class="row">
-                <div class="col-12">
+                <div class="col-md-6">
                     <div class="chart-container">
-                        <canvas id="orientationChart"></canvas>
+                        <canvas id="femurAccelChart"></canvas>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-md-6">
                     <div class="chart-container">
-                        <canvas id="flexionChart"></canvas>
+                        <canvas id="femurGyroChart"></canvas>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-md-6">
                     <div class="chart-container">
-                        <canvas id="velocityChart"></canvas>
+                        <canvas id="tibiaAccelChart"></canvas>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-md-6">
                     <div class="chart-container">
-                        <canvas id="torqueChart"></canvas>
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="chart-container">
-                        <canvas id="phaseChart"></canvas>
+                        <canvas id="tibiaGyroChart"></canvas>
                     </div>
                 </div>
             </div>

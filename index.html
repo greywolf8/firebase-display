@@ -76,26 +76,58 @@
                     },
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false,
                         plugins: {
                             title: {
                                 display: true,
                                 text: 'Femur Acceleration',
                                 font: {
-                                    size: 16,
+                                    size: window.innerWidth < 768 ? 14 : 16,
                                     weight: 'bold'
                                 },
                                 padding: {
-                                    top: 10,
-                                    bottom: 10
+                                    top: window.innerWidth < 768 ? 5 : 10,
+                                    bottom: window.innerWidth < 768 ? 5 : 10
+                                }
+                            },
+                            legend: {
+                                position: window.innerWidth < 768 ? 'bottom' : 'top',
+                                labels: {
+                                    boxWidth: window.innerWidth < 768 ? 10 : 40,
+                                    font: {
+                                        size: window.innerWidth < 768 ? 10 : 12
+                                    }
                                 }
                             }
                         },
                         scales: {
                             y: {
-                                title: { display: true, text: 'Acceleration (m/s²)' }
+                                title: { 
+                                    display: true, 
+                                    text: 'Acceleration (m/s²)',
+                                    font: {
+                                        size: window.innerWidth < 768 ? 10 : 12
+                                    }
+                                },
+                                ticks: {
+                                    font: {
+                                        size: window.innerWidth < 768 ? 8 : 10
+                                    }
+                                }
                             },
                             x: {
-                                title: { display: true, text: 'Time (s)' }
+                                title: { 
+                                    display: true, 
+                                    text: 'Time (s)',
+                                    font: {
+                                        size: window.innerWidth < 768 ? 10 : 12
+                                    }
+                                },
+                                ticks: {
+                                    font: {
+                                        size: window.innerWidth < 768 ? 8 : 10
+                                    }
+                                }
                             }
                         }
                     }
@@ -133,26 +165,58 @@
                     },
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false,
                         plugins: {
                             title: {
                                 display: true,
                                 text: 'Femur Gyroscope',
                                 font: {
-                                    size: 16,
+                                    size: window.innerWidth < 768 ? 14 : 16,
                                     weight: 'bold'
                                 },
                                 padding: {
-                                    top: 10,
-                                    bottom: 10
+                                    top: window.innerWidth < 768 ? 5 : 10,
+                                    bottom: window.innerWidth < 768 ? 5 : 10
+                                }
+                            },
+                            legend: {
+                                position: window.innerWidth < 768 ? 'bottom' : 'top',
+                                labels: {
+                                    boxWidth: window.innerWidth < 768 ? 10 : 40,
+                                    font: {
+                                        size: window.innerWidth < 768 ? 10 : 12
+                                    }
                                 }
                             }
                         },
                         scales: {
                             y: {
-                                title: { display: true, text: 'Angular Velocity (deg/s)' }
+                                title: { 
+                                    display: true, 
+                                    text: 'Angular Velocity (deg/s)',
+                                    font: {
+                                        size: window.innerWidth < 768 ? 10 : 12
+                                    }
+                                },
+                                ticks: {
+                                    font: {
+                                        size: window.innerWidth < 768 ? 8 : 10
+                                    }
+                                }
                             },
                             x: {
-                                title: { display: true, text: 'Time (s)' }
+                                title: { 
+                                    display: true, 
+                                    text: 'Time (s)',
+                                    font: {
+                                        size: window.innerWidth < 768 ? 10 : 12
+                                    }
+                                },
+                                ticks: {
+                                    font: {
+                                        size: window.innerWidth < 768 ? 8 : 10
+                                    }
+                                }
                             }
                         }
                     }
@@ -190,26 +254,58 @@
                     },
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false,
                         plugins: {
                             title: {
                                 display: true,
                                 text: 'Tibia Acceleration',
                                 font: {
-                                    size: 16,
+                                    size: window.innerWidth < 768 ? 14 : 16,
                                     weight: 'bold'
                                 },
                                 padding: {
-                                    top: 10,
-                                    bottom: 10
+                                    top: window.innerWidth < 768 ? 5 : 10,
+                                    bottom: window.innerWidth < 768 ? 5 : 10
+                                }
+                            },
+                            legend: {
+                                position: window.innerWidth < 768 ? 'bottom' : 'top',
+                                labels: {
+                                    boxWidth: window.innerWidth < 768 ? 10 : 40,
+                                    font: {
+                                        size: window.innerWidth < 768 ? 10 : 12
+                                    }
                                 }
                             }
                         },
                         scales: {
                             y: {
-                                title: { display: true, text: 'Acceleration (m/s²)' }
+                                title: { 
+                                    display: true, 
+                                    text: 'Acceleration (m/s²)',
+                                    font: {
+                                        size: window.innerWidth < 768 ? 10 : 12
+                                    }
+                                },
+                                ticks: {
+                                    font: {
+                                        size: window.innerWidth < 768 ? 8 : 10
+                                    }
+                                }
                             },
                             x: {
-                                title: { display: true, text: 'Time (s)' }
+                                title: { 
+                                    display: true, 
+                                    text: 'Time (s)',
+                                    font: {
+                                        size: window.innerWidth < 768 ? 10 : 12
+                                    }
+                                },
+                                ticks: {
+                                    font: {
+                                        size: window.innerWidth < 768 ? 8 : 10
+                                    }
+                                }
                             }
                         }
                     }
@@ -247,36 +343,101 @@
                     },
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false,
                         plugins: {
                             title: {
                                 display: true,
                                 text: 'Tibia Gyroscope',
                                 font: {
-                                    size: 16,
+                                    size: window.innerWidth < 768 ? 14 : 16,
                                     weight: 'bold'
                                 },
                                 padding: {
-                                    top: 10,
-                                    bottom: 10
+                                    top: window.innerWidth < 768 ? 5 : 10,
+                                    bottom: window.innerWidth < 768 ? 5 : 10
+                                }
+                            },
+                            legend: {
+                                position: window.innerWidth < 768 ? 'bottom' : 'top',
+                                labels: {
+                                    boxWidth: window.innerWidth < 768 ? 10 : 40,
+                                    font: {
+                                        size: window.innerWidth < 768 ? 10 : 12
+                                    }
                                 }
                             }
                         },
                         scales: {
                             y: {
-                                title: { display: true, text: 'Angular Velocity (deg/s)' }
+                                title: { 
+                                    display: true, 
+                                    text: 'Angular Velocity (deg/s)',
+                                    font: {
+                                        size: window.innerWidth < 768 ? 10 : 12
+                                    }
+                                },
+                                ticks: {
+                                    font: {
+                                        size: window.innerWidth < 768 ? 8 : 10
+                                    }
+                                }
                             },
                             x: {
-                                title: { display: true, text: 'Time (s)' }
+                                title: { 
+                                    display: true, 
+                                    text: 'Time (s)',
+                                    font: {
+                                        size: window.innerWidth < 768 ? 10 : 12
+                                    }
+                                },
+                                ticks: {
+                                    font: {
+                                        size: window.innerWidth < 768 ? 8 : 10
+                                    }
+                                }
                             }
                         }
                     }
                 }
             };
 
+            // Apply the same options to other charts
+            ['femurGyroChart', 'tibiaAccelChart', 'tibiaGyroChart'].forEach(chartId => {
+                chartConfigs[chartId] = JSON.parse(JSON.stringify(chartConfigs.femurAccelChart));
+                if (chartId === 'femurGyroChart' || chartId === 'tibiaGyroChart') {
+                    chartConfigs[chartId].options.plugins.title.text = chartId === 'femurGyroChart' ? 'Femur Gyroscope' : 'Tibia Gyroscope';
+                    chartConfigs[chartId].options.scales.y.title.text = 'Angular Velocity (deg/s)';
+                } else if (chartId === 'tibiaAccelChart') {
+                    chartConfigs[chartId].options.plugins.title.text = 'Tibia Acceleration';
+                }
+            });
+
+            // Initialize all charts
             for (const [chartId, config] of Object.entries(chartConfigs)) {
                 const ctx = document.getElementById(chartId).getContext('2d');
                 charts[chartId] = new Chart(ctx, config);
             }
+
+            // Add window resize handler
+            window.addEventListener('resize', () => {
+                Object.values(charts).forEach(chart => {
+                    const isMobile = window.innerWidth < 768;
+                    
+                    // Update font sizes and legend position
+                    chart.options.plugins.title.font.size = isMobile ? 14 : 16;
+                    chart.options.plugins.legend.position = isMobile ? 'bottom' : 'top';
+                    chart.options.plugins.legend.labels.boxWidth = isMobile ? 10 : 40;
+                    chart.options.plugins.legend.labels.font.size = isMobile ? 10 : 12;
+                    
+                    // Update scales font sizes
+                    chart.options.scales.y.title.font.size = isMobile ? 10 : 12;
+                    chart.options.scales.x.title.font.size = isMobile ? 10 : 12;
+                    chart.options.scales.y.ticks.font.size = isMobile ? 8 : 10;
+                    chart.options.scales.x.ticks.font.size = isMobile ? 8 : 10;
+                    
+                    chart.update();
+                });
+            });
         }
 
         function updateCharts(data, timestamp) {
@@ -343,6 +504,7 @@
             const logoutButton = document.getElementById("logout-button");
             const dataContainer = document.getElementById("data-container");
             const updateWeightButton = document.getElementById("update-weight-button");
+            let weightPromptShown = false;  // Flag to track if weight prompt has been shown
 
             initializeCharts();
 
@@ -356,6 +518,13 @@
                         console.log("Logged in successfully:", userCredential.user.email);
                         loginForm.style.display = "none";
                         dataContainer.style.display = "block";
+                        
+                        // Show weight prompt once after successful login
+                        if (!weightPromptShown) {
+                            alert("Please enter a valid weight value greater than 0");
+                            weightPromptShown = true;
+                        }
+                        
                         loadData();
                     })
                     .catch((error) => {
@@ -438,8 +607,6 @@
                     const Fk = mass * g * Afoot;
                     document.getElementById("knee-force-display").textContent =
                         `Knee Joint Force: ${Fk.toFixed(2)} N`;
-                } else {
-                    alert("Please enter a valid weight value greater than 0");
                 }
             }
 
@@ -718,7 +885,9 @@
             padding: 1.5rem;
             border-radius: 15px;
             margin-bottom: 1.5rem;
-            height: 350px;
+            position: relative;
+            width: 100%;
+            min-height: 300px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
@@ -831,7 +1000,21 @@
             }
             
             .chart-container {
-                height: 300px;
+                min-height: 250px;
+                padding: 1rem;
+            }
+
+            .data-display {
+                font-size: 0.9rem;
+                padding: 0.8rem;
+            }
+
+            .biomech-section {
+                padding: 1rem;
+            }
+
+            .biomech-section h3 {
+                font-size: 1.2rem;
             }
         }
 
